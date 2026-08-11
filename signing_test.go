@@ -9,7 +9,7 @@ import (
 func TestSigner_LoadSigningInformationFromFiles(t *testing.T) {
 	signingInfo, err := LoadSigningInformationFromFiles(filepath.Join("test", "passbook", "passkit.p12"), "password", filepath.Join("test", "passbook", "ca.pem"))
 	if err != nil {
-		t.Errorf("could not load signing info. %v", err)
+		t.Fatalf("could not load signing info. %v", err)
 	}
 
 	_, err = signManifestFile(nil, signingInfo)
@@ -19,7 +19,7 @@ func TestSigner_LoadSigningInformationFromFiles(t *testing.T) {
 
 	passJson, err := os.ReadFile(filepath.Join("test", "pass2.json"))
 	if err != nil {
-		t.Errorf("could not load pass json file. %v", err)
+		t.Fatalf("could not load pass json file. %v", err)
 	}
 
 	_, err = signManifestFile(passJson, signingInfo)
