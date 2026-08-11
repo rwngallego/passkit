@@ -175,12 +175,8 @@ func TestBarcode_NoAltText(t *testing.T) {
 	bar.AltText = ""
 
 	t.Logf("%d, %v", len(bar.GetValidationErrors()), bar.GetValidationErrors())
-	if bar.IsValid() {
-		t.Errorf("Barcode should be invalid")
-	}
-
-	if len(bar.GetValidationErrors()) != 1 {
-		t.Errorf("Barcode should have only one error")
+	if !bar.IsValid() {
+		t.Errorf("Barcode should be valid, altText is optional. Errors: %v", bar.GetValidationErrors())
 	}
 }
 

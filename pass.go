@@ -619,7 +619,7 @@ func (b *Barcode) GetValidationErrors() []string {
 	var validationErrors []string
 
 	if string(b.Format) == "" || strings.TrimSpace(b.Message) == "" || strings.TrimSpace(b.MessageEncoding) == "" {
-		validationErrors = append(validationErrors, fmt.Sprintf("Barcode: Not all required Fields are set. Format: %v, Message: %v, MessageEncoding: %v, AltText: %v", b.Format, b.Message, b.MessageEncoding, b.AltText))
+		validationErrors = append(validationErrors, fmt.Sprintf("Barcode: Not all required Fields are set. Format: %v, Message: %v, MessageEncoding: %v", b.Format, b.Message, b.MessageEncoding))
 	}
 
 	return validationErrors
