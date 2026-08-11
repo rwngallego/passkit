@@ -781,8 +781,16 @@ func TestPass_InvalidAuthToken(t *testing.T) {
 	pass.AuthenticationToken = ""
 
 	t.Logf("%d, %v", len(pass.GetValidationErrors()), pass.GetValidationErrors())
+	if !pass.IsValid() {
+		t.Errorf("Pass should be valid, the authenticationToken is not required without a webServiceURL. Have: %v", pass.GetValidationErrors())
+	}
+
+	pass.WebServiceURL = "https://example.com/api"
+	pass.AuthenticationToken = "tooShort"
+
+	t.Logf("%d, %v", len(pass.GetValidationErrors()), pass.GetValidationErrors())
 	if pass.IsValid() {
-		t.Errorf("Pass should be invalid")
+		t.Errorf("Pass should be invalid, the authenticationToken is too short for the webServiceURL")
 	}
 
 	if len(pass.GetValidationErrors()) != 1 {
