@@ -175,12 +175,8 @@ func TestBarcode_NoAltText(t *testing.T) {
 	bar.AltText = ""
 
 	t.Logf("%d, %v", len(bar.GetValidationErrors()), bar.GetValidationErrors())
-	if bar.IsValid() {
-		t.Errorf("Barcode should be invalid")
-	}
-
-	if len(bar.GetValidationErrors()) != 1 {
-		t.Errorf("Barcode should have only one error")
+	if !bar.IsValid() {
+		t.Errorf("Barcode should be valid, altText is optional. Errors: %v", bar.GetValidationErrors())
 	}
 }
 
@@ -785,8 +781,16 @@ func TestPass_InvalidAuthToken(t *testing.T) {
 	pass.AuthenticationToken = ""
 
 	t.Logf("%d, %v", len(pass.GetValidationErrors()), pass.GetValidationErrors())
+	if !pass.IsValid() {
+		t.Errorf("Pass should be valid, the authenticationToken is not required without a webServiceURL. Have: %v", pass.GetValidationErrors())
+	}
+
+	pass.WebServiceURL = "https://example.com/api"
+	pass.AuthenticationToken = "tooShort"
+
+	t.Logf("%d, %v", len(pass.GetValidationErrors()), pass.GetValidationErrors())
 	if pass.IsValid() {
-		t.Errorf("Pass should be invalid")
+		t.Errorf("Pass should be invalid, the authenticationToken is too short for the webServiceURL")
 	}
 
 	if len(pass.GetValidationErrors()) != 1 {
