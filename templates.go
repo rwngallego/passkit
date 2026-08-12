@@ -90,9 +90,9 @@ func (m *InMemoryPassTemplate) ProvisionPassAtDirectory(tmpDirPath string) error
 		return err
 	}
 
-	err = os.MkdirAll(dst, os.ModeDir)
+	err = os.MkdirAll(dst, 0700)
 	if err != nil {
-		return nil
+		return err
 	}
 
 	for file, d := range m.files {
